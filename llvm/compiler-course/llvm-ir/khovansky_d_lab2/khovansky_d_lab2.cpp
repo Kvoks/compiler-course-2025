@@ -1,16 +1,19 @@
-#include "llvm/IR/Module.h"
+
 #include "llvm/IR/Function.h"
-#include "llvm/IR/Instructions.h"
 #include "llvm/IR/IRBuilder.h"
+#include "llvm/IR/Instructions.h"
+#include "llvm/IR/Module.h"
 #include "llvm/Passes/PassBuilder.h"
 #include "llvm/Passes/PassPlugin.h"
-#include "llvm/Transforms/Utils/BasicBlockUtils.h"
 #include "llvm/Support/raw_ostream.h"
+#include "llvm/Transforms/Utils/BasicBlockUtils.h"
 
 namespace {
 
-struct ReplaceAddInstructionPass : llvm::PassInfoMixin<ReplaceAddInstructionPass> {
-  llvm::PreservedAnalyses run(llvm::Function &Func, llvm::FunctionAnalysisManager &) {
+struct ReplaceAddInstructionPass
+    : llvm::PassInfoMixin<ReplaceAddInstructionPass> {
+  llvm::PreservedAnalyses run(llvm::Function &Func,
+                              llvm::FunctionAnalysisManager &) {
     llvm::Module *Mod = Func.getParent();
 
     if (!Mod) {
@@ -33,7 +36,8 @@ struct ReplaceAddInstructionPass : llvm::PassInfoMixin<ReplaceAddInstructionPass
 
     for (llvm::BasicBlock &Block : Func) {
       for (llvm::Instruction &Inst : Block) {
-        llvm::BinaryOperator *BinOp = llvm::dyn_cast<llvm::BinaryOperator>(&Inst);
+        llvm::BinaryOperator *BinOp =
+            llvm::dyn_cast<llvm::BinaryOperator>(&Inst);
 
         if (!BinOp || BinOp->getOpcode() != llvm::Instruction::Add) {
           continue;
@@ -58,7 +62,7 @@ struct ReplaceAddInstructionPass : llvm::PassInfoMixin<ReplaceAddInstructionPass
         if (AddFuncType->getParamType(0) == LeftType &&
             AddFuncType->getParamType(1) == RightType &&
             AddFuncType->getReturnType() == ResultType) {
-            ToReplace.push_back(BinOp);
+          ToReplace.push_back(BinOp);
         }
       }
     }
@@ -72,7 +76,8 @@ struct ReplaceAddInstructionPass : llvm::PassInfoMixin<ReplaceAddInstructionPass
       llvm::Value *Arg1 = OldAdd->getOperand(0);
       llvm::Value *Arg2 = OldAdd->getOperand(1);
 
-      llvm::CallInst *Call = Builder.CreateCall(AddFunc, {Arg1, Arg2}, OldAdd->getName());
+      llvm::CallInst *Call =
+          Builder.CreateCall(AddFunc, {Arg1, Arg2}, OldAdd->getName());
 
       OldAdd->replaceAllUsesWith(Call);
       OldAdd->eraseFromParent();
