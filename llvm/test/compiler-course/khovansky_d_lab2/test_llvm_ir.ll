@@ -3,9 +3,9 @@
 
 ; === сама функция add ===
 ; CHECK-LABEL: define i32 @add(
-; CHECK:       entry:
-; CHECK:       %result = add i32 %a, %b
-; CHECK:       ret i32 %result
+; CHECK-NEXT:  entry:
+; CHECK-NEXT:  %result = add i32 %a, %b
+; CHECK-NEXT:  ret i32 %result
 define i32 @add(i32 %a, i32 %b) {
 entry:
   %result = add i32 %a, %b
@@ -14,9 +14,9 @@ entry:
 
 ; === Test 1: Заменяется add на вызов @add ===
 ; CHECK-LABEL: define i32 @should_replace(
-; CHECK:       entry:
-; CHECK:       call i32 @add(i32 %x, i32 %y)
-; CHECK:       ret i32
+; CHECK-NEXT:  entry:
+; CHECK-NEXT:  call i32 @add(i32 %x, i32 %y)
+; CHECK-NEXT:  ret i32
 ; CHECK-NOT:   add i32 %x, %y
 define i32 @should_replace(i32 %x, i32 %y) {
 entry:
@@ -26,8 +26,8 @@ entry:
 
 ; === Test 2: используется именно @add, а не его сигнатура ===
 ; CHECK-LABEL: define i32 @wrong_sig_user(
-; CHECK:       entry:
-; CHECK:       call i32 @add(i32 %x, i32 %y)
+; CHECK-NEXT:  entry:
+; CHECK-NEXT:  call i32 @add(i32 %x, i32 %y)
 ; CHECK-NOT:   call i64 @add_wrong_sig
 define i64 @add_wrong_sig(i64 %a, i64 %b) {
 entry:
@@ -44,9 +44,9 @@ entry:
 
 ; === Test 3: проверка константы ===
 ; CHECK-LABEL: define i32 @const_operand(
-; CHECK:       entry:
-; CHECK:       add i32 %x, 42
-; CHECK:       ret i32
+; CHECK-NEXT:  entry:
+; CHECK-NEXT:  add i32 %x, 42
+; CHECK-NEXT:  ret i32
 ; CHECK-NOT:   call i32 @add(i32 %x, 42)
 define i32 @const_operand(i32 %x) {
 entry:
@@ -56,9 +56,9 @@ entry:
 
 ; === Test 4: проверка fadd ===
 ; CHECK-LABEL: define double @double_add(
-; CHECK:       entry:
-; CHECK:       fadd double %a, %b
-; CHECK:       ret double
+; CHECK-NEXT:  entry:
+; CHECK-NEXT:  fadd double %a, %b
+; CHECK-NEXT:  ret double
 ; CHECK-NOT:   call i32 @add(i32 %a, i32 %b)
 define double @double_add(double %a, double %b) {
 entry:
