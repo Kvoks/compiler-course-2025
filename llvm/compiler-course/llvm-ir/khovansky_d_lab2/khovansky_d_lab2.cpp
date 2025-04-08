@@ -33,6 +33,8 @@ struct ReplaceAddInstructionPass
 
     llvm::SmallVector<llvm::Instruction *, 8> ToReplace;
 
+    llvm::FunctionType *AddFuncType = AddFunc->getFunctionType();
+
     for (llvm::BasicBlock &Block : Func) {
       for (llvm::Instruction &Inst : Block) {
         llvm::BinaryOperator *BinOp =
@@ -51,12 +53,6 @@ struct ReplaceAddInstructionPass
         llvm::Type *LeftType = BinOp->getOperand(0)->getType();
         llvm::Type *RightType = BinOp->getOperand(1)->getType();
         llvm::Type *ResultType = BinOp->getType();
-
-        llvm::FunctionType *AddFuncType = AddFunc->getFunctionType();
-
-        if (AddFuncType->getNumParams() != 2) {
-          continue;
-        }
 
         if (AddFuncType->getParamType(0) == LeftType &&
             AddFuncType->getParamType(1) == RightType &&
