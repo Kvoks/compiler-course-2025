@@ -66,7 +66,7 @@ public:
       return true;
     default:
       break;
-    }    
+    }
 
     clang::QualType fromType = cast->getSubExpr()->getType();
     clang::QualType toType = cast->getType();
