@@ -5,8 +5,6 @@
 // CHECK-NEXT: int -> double: 1
 double global_par = 42;
 
-// NOLINTBEGIN
-
 // Проверка задач варианта
 // CHECK: Function: sum
 // CHECK-NEXT: float -> double: 1
@@ -24,6 +22,8 @@ double sum(int a, float b) {
 int mul(float a, float b) {
     return a + sum(a, b);
 }
+
+// NOLINTBEGIN
 
 // Проверка обычной функции с несколькими преобразованиями
 // CHECK: Function: standart_func
