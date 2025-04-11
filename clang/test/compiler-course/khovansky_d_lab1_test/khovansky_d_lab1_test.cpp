@@ -67,4 +67,5 @@ void pointer_test() {
   char* p = nullptr;
   void* vp = p;
 }
+// NOLIT
 
