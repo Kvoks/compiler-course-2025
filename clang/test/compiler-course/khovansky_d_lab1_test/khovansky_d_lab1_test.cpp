@@ -63,11 +63,11 @@ bool make_bool() {
 // CHECK-NEXT: nullptr_t -> char *: 1
 // CHECK-NEXT: char * -> void *: 1
 
-// NOLINTBEGIN
-
 void pointer_test() {
   char* p = nullptr;
   void* vp = p;
 }
+
+// NOLINTBEGIN
 // NOLINTEND
 
