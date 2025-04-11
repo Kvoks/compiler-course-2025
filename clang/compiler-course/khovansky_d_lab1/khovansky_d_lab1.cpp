@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 
+// NOLINTBEGIN(readability-identifier-naming)
 namespace {
 
 class ImplicitConvVisitor final
@@ -141,3 +142,5 @@ public:
 static clang::FrontendPluginRegistry::Add<ConversionAction>
     X("ImplicitConvPlugin", "Output the number of implicit conversions in the "
                             "entire file, including global scope");
+// NOLINTEND(readability-identifier-naming)
+
