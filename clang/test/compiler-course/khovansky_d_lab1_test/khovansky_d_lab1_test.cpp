@@ -54,8 +54,6 @@ void construct_u() {
 // CHECK: Function: make_bool
 // CHECK-NEXT: int -> bool: 1
 
-// NOLINTBEGIN
-
 bool make_bool() {
   return 100;
 }
@@ -64,6 +62,8 @@ bool make_bool() {
 // CHECK: Function: pointer_test
 // CHECK-NEXT: nullptr_t -> char *: 1
 // CHECK-NEXT: char * -> void *: 1
+
+// NOLINTBEGIN
 
 void pointer_test() {
   char* p = nullptr;
