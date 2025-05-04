@@ -123,5 +123,3 @@ char FMAFlatten::ID = 0;
 static llvm::RegisterPass<FMAFlatten>
     X("FMA-flatten-x86", "Decomposes FMA instructions into MUL and ADD", false,
       false);
-
-
