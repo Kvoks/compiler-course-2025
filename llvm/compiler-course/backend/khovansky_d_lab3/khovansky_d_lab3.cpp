@@ -53,8 +53,8 @@ public:
   }
 
 private:
-  bool identifyFMA(unsigned Op, unsigned &Mul, unsigned &Add, 
-                   unsigned &A_idx, unsigned &B_idx, unsigned &C_idx) {
+  bool identifyFMA(unsigned Op, unsigned &Mul, unsigned &Add, unsigned &A_idx,
+                   unsigned &B_idx, unsigned &C_idx) {
     switch (Op) {
     // Packed single-precision
     case X86::VFMADD132PSr:
