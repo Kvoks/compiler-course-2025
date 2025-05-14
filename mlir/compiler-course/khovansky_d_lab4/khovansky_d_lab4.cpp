@@ -14,7 +14,8 @@ public:
     return "RemsiuiPass_Khovansky_Dmitry_FIIT2_MLIR";
   }
   StringRef getDescription() const final { 
-    return "Decomposes arith.remsi and arith.remui operations into equivalent expressions";
+    return "Decomposes arith.remsi and arith.remui operations into equivalent "
+           "expressions using division and multiplication: a - (a // b) * b";
   }
 
   void runOnOperation() override {
@@ -26,13 +27,13 @@ public:
       if (isa<arith::RemSIOp>(op) || isa<arith::RemUIOp>(op)) {
         remOps.push_back(op);
       }
-    });  
+    });
 
     for (Operation *op : remOps) {
       OpBuilder builder(op);
       Location loc = op->getLoc();
 
-      //rem(a, b) = a - (a // b) * b
+      // rem(a, b) = a - (a // b) * b
       Value a, b, div, mul, result;
 
       if (auto remsi = dyn_cast<arith::RemSIOp>(op)) {
@@ -74,4 +75,3 @@ extern "C" LLVM_ATTRIBUTE_WEAK mlir::PassPluginLibraryInfo
 mlirGetPassPluginInfo() {
   return getFunctionCallCounterPassPluginInfo();
 }
-
